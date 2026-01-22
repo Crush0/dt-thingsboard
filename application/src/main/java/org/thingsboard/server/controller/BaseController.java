@@ -568,6 +568,10 @@ public abstract class BaseController {
         }
     }
 
+    PageLink createPageLink(int pageSize, int page) {
+        return new PageLink(pageSize, page);
+    }
+
     TimePageLink createTimePageLink(int pageSize, int page, String textSearch,
                                     String sortProperty, String sortOrder, Long startTime, Long endTime) throws ThingsboardException {
         PageLink pageLink = this.createPageLink(pageSize, page, textSearch, sortProperty, sortOrder);

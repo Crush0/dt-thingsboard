@@ -84,6 +84,9 @@ public class EntityIdFactory {
             case ADMIN_SETTINGS -> new AdminSettingsId(uuid);
             case AI_MODEL -> new AiModelId(uuid);
             case API_KEY -> new ApiKeyId(uuid);
+            case GOVIEWPROJECT -> new GoViewProjectId(uuid);
+            case GOVIEWPROJECTDATA -> new GoViewProjectDataId(uuid);
+            case GOVIEWFILE -> new GoViewFileId(uuid);
         };
     }
 

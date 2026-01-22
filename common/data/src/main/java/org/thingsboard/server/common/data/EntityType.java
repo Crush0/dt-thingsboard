@@ -72,7 +72,7 @@ public enum EntityType {
             return "AI model";
         }
     },
-    API_KEY(44);
+    API_KEY(44),GOVIEWPROJECT(45), GOVIEWPROJECTDATA(46), GOVIEWFILE(47);
 
     @Getter
     private final int protoNumber; // Corresponds to EntityTypeProto

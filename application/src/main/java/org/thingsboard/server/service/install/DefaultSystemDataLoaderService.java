@@ -176,6 +176,10 @@ public class DefaultSystemDataLoaderService implements SystemDataLoaderService {
     private String tokenIssuer;
     @Value("${security.jwt.tokenSigningKey:thingsboardDefaultSigningKey}")
     private String tokenSigningKey;
+    @Value("${init.user.sysAdmin.email:sysadmin@thingsboard.org}")
+    private String sysAdminEmail;
+    @Value("${init.user.sysAdmin.password:sysadmin}")
+    private String sysAdminPassword;
 
     @Bean
     protected BCryptPasswordEncoder passwordEncoder() {
@@ -198,7 +202,11 @@ public class DefaultSystemDataLoaderService implements SystemDataLoaderService {
 
     @Override
     public void createSysAdmin() {
-        createUser(Authority.SYS_ADMIN, null, null, "sysadmin@thingsboard.org", "sysadmin");
+        try{
+            createUser(Authority.SYS_ADMIN, null, null, sysAdminEmail, sysAdminPassword);
+        } catch (Exception ignored){
+            log.warn("SYS_ADMIN create failed, the user has already been created");
+        }
     }
 
     @Override
@@ -246,7 +254,7 @@ public class DefaultSystemDataLoaderService implements SystemDataLoaderService {
     }
 
     @Override
-    public void createAdminSettings() throws Exception {
+    public void createAdminSettings() {
         AdminSettings generalSettings = new AdminSettings();
         generalSettings.setTenantId(TenantId.SYS_TENANT_ID);
         generalSettings.setKey("general");
@@ -254,7 +262,12 @@ public class DefaultSystemDataLoaderService implements SystemDataLoaderService {
         node.put("baseUrl", "http://localhost:8080");
         node.put("prohibitDifferentUrl", false);
         generalSettings.setJsonValue(node);
-        adminSettingsService.saveAdminSettings(TenantId.SYS_TENANT_ID, generalSettings);
+        try{
+            adminSettingsService.saveAdminSettings(TenantId.SYS_TENANT_ID, generalSettings);
+        } catch (DataValidationException e) {
+            log.warn(e.getMessage());
+        }
+
 
         AdminSettings mailSettings = new AdminSettings();
         mailSettings.setTenantId(TenantId.SYS_TENANT_ID);
@@ -272,13 +285,22 @@ public class DefaultSystemDataLoaderService implements SystemDataLoaderService {
         node.put("enableProxy", false);
         node.put("showChangePassword", false);
         mailSettings.setJsonValue(node);
-        adminSettingsService.saveAdminSettings(TenantId.SYS_TENANT_ID, mailSettings);
+        try{
+            adminSettingsService.saveAdminSettings(TenantId.SYS_TENANT_ID, mailSettings);
+        } catch (DataValidationException e) {
+            log.warn(e.getMessage());
+        }
+
 
         AdminSettings connectivitySettings = new AdminSettings();
         connectivitySettings.setTenantId(TenantId.SYS_TENANT_ID);
         connectivitySettings.setKey("connectivity");
         connectivitySettings.setJsonValue(JacksonUtil.valueToTree(connectivityConfiguration.getConnectivity()));
-        adminSettingsService.saveAdminSettings(TenantId.SYS_TENANT_ID, connectivitySettings);
+        try {
+            adminSettingsService.saveAdminSettings(TenantId.SYS_TENANT_ID, connectivitySettings);
+        } catch (DataValidationException e) {
+            log.warn(e.getMessage());
+        }
     }
 
     @Override

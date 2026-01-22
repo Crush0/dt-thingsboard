@@ -37,6 +37,19 @@ public class ModelConstants {
     /**
      * Generic constants.
      */
+
+    public static final String GOVIEW_PROJECT_TABLE_NAME = "goview_project";
+    public static final String GOVIEW_PROJECT_DATA_TABLE_NAME = "goview_project_data";
+    public static final String GOVIEW_FILE_TABLE_NAME = "goview_file";
+    public static final String SIZE_PROPERTY = "size";
+    public static final String SUFFIX_PROPERTY = "suffix";
+    public static final String GOVIEW_VIRTUAL_KEY = "virtual_key";
+    public static final String GOVIEW_RELATIVE_PATH = "relative_path";
+    public static final String GOVIEW_ABSOLUTE_PATH = "absolute_path";
+    public static final String GOVIEW_REMARKS = "remarks";
+    public static final String GOVIEW_INDEX_IMAGE = "index_image";
+    public static final String GOVIEW_PROJECT_ID = "project_id";
+    public static final String GOVIEW_CONTENT = "content";
     public static final String ID_PROPERTY = "id";
     public static final String CREATED_TIME_PROPERTY = "created_time";
     public static final String USER_ID_PROPERTY = "user_id";
